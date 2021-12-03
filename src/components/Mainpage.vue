@@ -1,124 +1,186 @@
 <template>
   <div>
-    <div class="row">
-      <div class="column left">
-        <router-link to="/"><button>Home</button></router-link>
-        <router-link to="/profile"><button>Profile</button></router-link>
-        <button>Logout</button>
-        <div class="dropdown">
-        <button @click="myFunction()" class="dropbtn">More</button>
-        <div id="myDropdown" class="dropdown-content">
-          <a href="#">ลบบัญชีผู้ใช้</a>
+    <div class="sidenav">
+      <router-link to="/"><button>Home</button></router-link>
+      <router-link to="/profile"><button>Profile</button></router-link>
+      <button>More</button>
+      <button>Logout</button>
+      {{ceilt}}
+      
+      <div class="usermain">
+        <div v-for="(user,i) in listUser" :key="i" class="user">
+          <img @click="getUser(user._id)" :src="$root.state.url+user.avatar">
+          <p>{{user.firstname}}</p>
+          <p>@{{user.username}}</p>
+          {{user.followers.length}}
+            <button @click="follow(user.firstname,user._id)">Follow</button>
+            <button @click="unfollow(user.firstname,user._id)" >Unfollow</button>
+        </div>
+        <div class="modal" :style="{ display: $root.state.isgeopenForm ? 'block' : 'none' }">
+          <div class="modal-content">
+            <span class="close" @click="gecloseForm()">&times;</span>
+            <img :src="$root.state.url+users.avatar" class="picuser">
+            <p>firstname : {{users.firstname}}</p>
+            <p>lastname : {{users.lastname}}</p>
+            <p>phoneNumber : {{users.phoneNumber}}</p>
+            <p>email : {{users.email}}</p>
+            <p>followings : </p>{{users.followings}}
+            <p>followers : </p>{{users.followers}}
+            <button @click="getusertwit(users._id)">เรียกดูทวิต</button>
+            <button @click="gecloseForm()">Close</button>
+          </div>
+        </div>
+        <div class="modal" :style="{ display: $root.state.istwopenForm ? 'block' : 'none' }">
+          <div class="modal-content">
+            <span class="close" @click="twcloseForm()">&times;</span>
+            <div v-for="texttw in texttwit" :key="texttw.id">
+              <p>{{texttw.text}}</p>
+              {{texttw.likes.length}}
+              <p>{{texttw.createdAt}}</p>
+              <p>--------------</p>
+            </div>
+            <button v-for="index in ceilt" :key="index" @click="onChangePage(index)" class="butpage">{{index}}</button>
+          </div>
         </div>
       </div>
-      </div>
-      <div class="column middle">
-        <router-view />
-      </div>
-      <div class="column right">
-        <h2>Column 3</h2>
-        <p>Some text..</p>
-      </div>
+    </div>
+    <div class="main">
+      <router-view />
     </div>
   </div>
 </template>
 
 <script>
+import store from "../store"
+const host = "https://camt-twitterapi.pair-co.com"
 export default {
-  data() {
-    return {};
+  data(){
+    return{
+      listUser:[],
+      users:[],
+      userfirstname:'', 
+      userId:'',
+      myId:'',
+      texttwit:[],
+      limit:5,
+      total:0,
+      pageNumber:1,
+      ceilt:0
+    }
   },
-  methods: {
-    myFunction() {
-      document.getElementById("myDropdown").classList.toggle("show");
+  mounted(){
+    this.getListUser(),
+    this.getMyid()
+  },
+  methods:{
+    getListUser(){
+      const getListUserURL = `${host}/users`
+      fetch(getListUserURL,{method:'GET'})
+      .then(respone=>respone.json())
+      .then(data=>{this.listUser=data})
     },
-  },
-};
-window.onclick = function (event) {
-  if (!event.target.matches(".dropbtn")) {
-    var dropdowns = document.getElementsByClassName("dropdown-content");
-    var i;
-    for (i = 0; i < dropdowns.length; i++) {
-      var openDropdown = dropdowns[i];
-      if (openDropdown.classList.contains("show")) {
-        openDropdown.classList.remove("show");
-      }
+    getUser(id){
+      store.state.isgeopenForm=true
+      this.userId=id
+      const getUserURL = `${host}/users/${this.userId}`
+      fetch(getUserURL,{method:'GET'})
+      .then(respone=>respone.json())
+      .then(data=>{this.users=data})
+    },
+    getMyid(){
+      const compareIdURL = `${host}/me`
+      fetch(compareIdURL,{method:'GET',headers:{Authorization:`Bearer ${this.$root.state.loginToken}`}})
+      .then(response=>response.json())
+      .then(data=>{this.myId=data._id})
+    },
+    follow(user,id){
+      this.userId=id
+      this.userfirstname=user
+      const followURL = `${host}/users/${this.userId}/follows`
+      fetch(followURL,{method:'POST',headers:{Authorization:`Bearer ${this.$root.state.loginToken}`}})
+      .then(response=>{if (response.status >= 200 && response.status < 300){
+        alert('Follow'+this.userfirstname+'เรียบร้อยแล้ว')
+        this.getListUser()
+      }})
+    },
+    unfollow(user,id){
+      this.userId=id
+      this.userfirstname=user
+      const unfollowURL = `${host}/users/${this.userId}/unfollows`
+      fetch(unfollowURL,{method:'POST',headers:{Authorization:`Bearer ${this.$root.state.loginToken}`}})
+      .then(response=>{if (response.status >= 200 && response.status < 300){
+        alert('Unfollow'+this.userfirstname+'เรียบร้อยแล้ว')
+        this.getListUser()
+      }})
+    },
+    getusertwit(id){
+      store.state.istwopenForm=true
+      this.userId=id
+      const getusertwitURL = `${host}/tweets/${this.userId}?limit=${this.limit}&offset=${this.pageNumber-1}`
+      fetch(getusertwitURL,{method:'GET'})
+      .then(respone=>respone.json())
+      .then(data=>{
+        this.texttwit=data.data
+        this.total = data.total
+        this.ceilt = Math.ceil(this.total/this.limit)
+      })
+    },
+      onChangePage(pageNumber){
+      this.pageNumber=pageNumber
+      
+    },
+    gecloseForm(){
+      store.gecloseForm()
+    },
+        twcloseForm(){
+      store.twcloseForm()
     }
   }
-};
+}
 </script>
 
 <style>
-* {
-  box-sizing: border-box;
-}
-.column {
-  float: left;
-  padding: 10px;
-  height: 3000px;
-  overflow: auto;
-}
-.left,
-.right {
+.sidenav {
+  height: 100%;
   width: 25%;
-  background-color: #f1f1f1;
-}
-.middle {
-  width: 50%;
-}
-.row:after {
-  content: "";
-  display: table;
-  clear: both;
-}
-p {
-  display: block;
-  color: black;
-  padding: 16px;
-  text-decoration: none;
-}
-.sidebar p.active {
-  background-color: #04aa6d;
-  color: white;
-}
-.sidebar p:hover:not(.active) {
-  background-color: #555;
-  color: white;
-}
-.dropbtn {
-  background-color: #3498db;
-  color: white;
-  padding: 16px;
-  font-size: 16px;
-  border: none;
-  cursor: pointer;
-}
-.dropbtn:hover,
-.dropbtn:focus {
-  background-color: #2980b9;
-}
-.dropdown {
-  position: relative;
-  display: inline-block;
-}
-.dropdown-content {
-  display: none;
-  position: absolute;
-  background-color: #f1f1f1;
-  min-width: 160px;
-  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  position: fixed;
   z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: gray;
+  overflow-x: hidden;
+  padding-top: 20px;
 }
-.dropdown-content a {
-  color: black;
-  padding: 12px 16px;
+.sidenav button {
+  padding: 6px 8px 6px 16px;
   text-decoration: none;
+  color: #818181;
   display: block;
 }
-.dropdown-content a:hover {
-  background-color: #ddd;
+.sidenav button:hover {
+  color: #f1f1f1;
 }
-.show {
-  display: block;
+.main {
+  margin-left: 25%;
+  font-size: 28px;
+  padding: 0px 10px;
+}
+@media screen and (max-height: 450px) {
+  .sidenav {
+    padding-top: 15px;
+  }
+  .sidenav button {
+    font-size: 18px;
+  }
+}
+.usermain{
+  display: grid;
+  grid-template-columns: 19% 19% 19% 19% 19%;
+  grid-gap: 1%;
+}
+.user img,.picuser{
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
 }
 </style>

@@ -1,20 +1,20 @@
 <template>
-  <div>
-      <div>
-          <input type="text" v-model="texttwit">
-          <button @click="twit()">Tweet</button>
-      </div>
-      <div>
-          <div>
-              <div v-for="twitter in twitters" :key="twitter.id">
-                  <p>{{twitter.text}}</p>
-                  <p>{{twitter.author}}</p>
-                  <p>{{twitter.likes}}</p>
-                  <p>{{twitter.createdAt}}</p>
-              </div>
-          </div>
-      </div>
-  </div>
+    <div>
+        <div>
+            <input type="text" placeholder="ทวิตอะไรหน่อยสิ" v-model="texttwit">
+            <button @click="twit()">ทวิตอะไรหน่อยสิ</button>
+        </div>
+        <div>
+            <div v-for="twit in twitters" :key="twit.id">
+                <p>{{twit.text}}</p>
+                <p>{{twit.author.username}}</p>
+                <img :src="$root.state.url+twit.author.avatar" class="pictwit">
+                <p>{{twit.createdAt}}</p>
+                <p>{{twit.likes.length}}</p>
+                <p>_______________________</p>
+            </div>
+        </div>
+    </div>
 </template>
 
 <script>
@@ -41,6 +41,9 @@ export default {
             fetch(gettwitURL,{method:'GET'})
             .then(response=>response.json())
             .then(data=>{this.twitters=data.data})
+        },
+        test(){
+            alert(Math.ceil(10/3))
         }
 
     }
@@ -48,5 +51,7 @@ export default {
 </script>
 
 <style>
-
+.pictwit{
+    width: 200px;
+}
 </style>

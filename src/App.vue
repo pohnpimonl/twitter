@@ -1,21 +1,20 @@
 <template>
   <div>
     <div v-if="$root.state.isMainpage">
-      <div><begin/></div>
+      <div><begin /></div>
     </div>
     <div v-else>
-      <div><mainpage/></div>
+      <div><mainpage /></div>
     </div>
   </div>
 </template>
 
 <script>
-import Begin from './components/Begin.vue'
-import Mainpage from './components/Mainpage.vue'
+import Begin from "./components/Begin.vue"
+import Mainpage from "./components/Mainpage.vue"
 
 export default {
-  components: { Begin, Mainpage},
-
+  components: { Begin, Mainpage },
 }
 </script>
 
@@ -26,6 +25,6 @@ export default {
   padding: 0;
   list-style: none;
   box-sizing: border-box;
-  font-family: 'Kanit', sans-serif;
+  font-family: "Kanit", sans-serif;
 }
 </style>

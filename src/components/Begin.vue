@@ -1,25 +1,47 @@
 <template>
   <div>
-    <div class="row">
-      <div class="column">
-        <img :src="$root.state.bgbegin" style="width: 10%" />
+    <div class="firstbegin">
+      <div>
+        <img :src="$root.state.bgbegin"/>
       </div>
-      <div class="column">
-        <div><register/></div>
-        <div><loginn/></div>
+      <div class="secondbegin">
+        <div class="secondbegin1">กำลังเกิดขึ้นตอนนี้</div>
+        <div class="secondbegin2">เข้าร่วมทวิตเตอร์วันนี้</div>
+        <div><register /></div>
+        <div class="secondbegin2">มีบัญชีผู้ใช้อยู่แล้วใช่ไหม</div>
+        <div><loginn /></div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import Loginn from './Loginn.vue'
-import Register from './Register.vue'
+import Loginn from "./Loginn.vue"
+import Register from "./Register.vue"
 export default {
-  components: { Register, Loginn, },
-
+  components: { Register, Loginn },
 }
 </script>
 
 <style>
+.firstbegin{
+  display: grid;
+  grid-template-columns: 56% 44%;
+  
+}
+.firstbegin div img{
+  width: 100%;
+}
+.secondbegin div{
+  text-align: center;
+}
+.secondbegin1{
+  font-size: 64px;
+  font-weight: bolder;
+  padding: 96px 0 0;
+}
+.secondbegin2{
+  font-size: 40px;
+  padding: 80px 0 0;
+}
 </style>
