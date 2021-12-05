@@ -1,6 +1,7 @@
 const store = {
     state: {
         bgbegin: require('./assets/bg.jpg'),
+        logo: require('./assets/Logo-Twitter.png'),
         url: 'https://camt-twitterapi.pair-co.com',
         isMainpage: true,
         loginToken: null,

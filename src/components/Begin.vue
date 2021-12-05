@@ -26,22 +26,20 @@ export default {
 <style>
 .firstbegin{
   display: grid;
-  grid-template-columns: 56% 44%;
-  
+  grid-template-columns: 855px 650px;
 }
 .firstbegin div img{
   width: 100%;
-}
-.secondbegin div{
-  text-align: center;
 }
 .secondbegin1{
   font-size: 64px;
   font-weight: bolder;
   padding: 96px 0 0;
+  text-align: center;
 }
 .secondbegin2{
   font-size: 40px;
   padding: 80px 0 0;
+  text-align: center;
 }
 </style>

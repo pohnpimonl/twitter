@@ -5,6 +5,7 @@ import Loginn from './components/Loginn.vue'
 import Mainpage from './components/Mainpage.vue'
 import Home from './components/Home.vue'
 import Profile from './components/Profile.vue'
+import Suggested from './components/Suggested.vue'
 
 const routes = [
     { path: '/begin', component: Begin },
@@ -13,6 +14,7 @@ const routes = [
     { path: '/mainpage', component: Mainpage },
     { path: '/', component: Home },
     { path: '/profile', component: Profile },
+    { path: '/suggested', component: Suggested },
 ]
 
 const router = new VueRouter({

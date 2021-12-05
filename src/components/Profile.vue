@@ -67,7 +67,7 @@ const host ='https://camt-twitterapi.pair-co.com'
 export default {
   data(){
     return{
-      profiles:{},
+      profiles:[],
       file:null,
     }
   },

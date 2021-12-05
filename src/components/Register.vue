@@ -1,47 +1,42 @@
 <template>
   <div>
-    <button class="relobutton" @click="openForm()"><span>ลงทะเบียน</span></button>
+    <div class="relobuttondiv">
+      <button class="relobutton" @click="openForm()"><span>ลงทะเบียน</span></button>
+    </div>
     <div class="modal" :style="{ display: $root.state.isreopenForm ? 'block' : 'none' }" >
       <div class="modal-content">
         <span class="close" @click="closeForm()">&times;</span>
-        <p>ลงทะเบียน</p>
+        <p class="relop">ลงทะเบียน</p>
         <form @submit.prevent="register()">
-          <div>
-            <label for="avatar">รูป</label>
-            <input type="file" />
-          </div>
-          <div>
+            <div class="formrelo">
+              <label for="avatar">Picture</label>
+            <input type="file" class="inputrelo" />
+          
             <label for="firstname">Firstname</label>
-            <input type="text" placeholder="Enter Firstname" name="firstname" v-model="form.firstname" required />
-          </div>
-          <div>
+            <input type="text" placeholder="Enter Firstname" class="inputrelo" v-model="form.firstname" required />
+         
             <label for="lastname">Lastname</label>
-            <input type="text" placeholder="Enter Lastname" name="lastname" v-model="form.lastname" required />
-          </div>
-          <div>
+            <input type="text" placeholder="Enter Lastname" class="inputrelo" v-model="form.lastname" required />
+         
             <label for="phoneNumber">PhoneNumber</label>
-            <input type="tel" placeholder="Enter PhoneNumber" name="phoneNumber" v-model="form.phoneNumber" required />
-          </div>
-          <div>
+            <input type="tel" placeholder="Enter PhoneNumber" class="inputrelo" v-model="form.phoneNumber" required />
+       
             <label for="email">E-Mail</label>
-            <input type="email" placeholder="Enter E-Mail" name="email" v-model="form.email" required />
-          </div>
-          <div>
+            <input type="email" placeholder="Enter E-Mail" class="inputrelo" v-model="form.email" required />
+        
             <label for="username">Username</label>
-            <input type="text" placeholder="Enter Username" name="username" v-model="form.username" required />
-          </div>
-          <div>
+            <input type="text" placeholder="Enter Username" class="inputrelo" v-model="form.username" required />
+       
             <label for="password">Password</label>
-            <input type="password" placeholder="Enter Password" name="password" v-model="form.password" required />
-          </div>
-          <div>
+            <input type="password" placeholder="Enter Password" class="inputrelo" v-model="form.password" required />
+      
             <label for="password_">Re-Password</label>
-            <input type="password" placeholder="Enter Re-Password" name="password_" v-model="form.password_" required />
-          </div>
-          <div>
-            <button type="submit">ลงทะเบียน</button>
-            <button type="button" @click="closeForm()">ยกเลิก</button>
-          </div>
+            <input type="password" placeholder="Enter Re-Password" class="inputrelo" v-model="form.password_" required />
+            </div>
+            <div class="relobuttondiv">
+              <button class="relobutton" type="submit">ลงทะเบียน</button>
+              <button class="relobutton" type="button" @click="closeForm()">ยกเลิก</button>
+            </div>
         </form>
       </div>
     </div>
@@ -107,35 +102,52 @@ export default {
 
 <style>
 .modal {
-  display: none;
+  display: flex;
   position: fixed;
   z-index: 1;
+  padding: auto;
   left: 0;
   top: 0;
   width: 100%;
   height: 100%;
   overflow: auto;
-  background-color: rgb(0, 0, 0);
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: rgb(0,0,0);
+  background-color: rgba(255, 255, 255, 0.001);
 }
 .modal-content {
   background-color: #fefefe;
-  margin: 15% auto;
   padding: 20px;
   border: 1px solid #888;
-  width: 50%;
+  width: 500px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  border-radius: 16px;
 }
 .close {
-  color: #aaa;
+  color: #aaaaaa;
   float: right;
   font-size: 28px;
   font-weight: bold;
 }
 .close:hover,
 .close:focus {
-  color: black;
+  color: #000;
   text-decoration: none;
   cursor: pointer;
+}
+.formrelo{
+  display: grid;
+  grid-template-columns: 30% 70%;
+}
+.relobuttondiv{
+  text-align: center;
+}
+.relobuttondiv{
+  display: grid;
+  grid-template-columns: 49% 49%;
+  grid-gap: 2%;
 }
 .relobutton {
   background-color: #2196F3;
@@ -145,9 +157,28 @@ export default {
   padding: 14px 28px;
   font-size: 24px;
   font-weight: bolder;
+  opacity: 0.9;
   cursor: pointer;
 }
 .relobutton:hover {
   background: #0b7dda;
+}
+.relop{
+    font-size: 24px;
+  font-weight: bolder;
+  text-align: center;
+}
+.inputrelo{
+  width: 100%;
+  padding: 10px;
+  margin: 5px 0 22px 0;
+  margin: 1px 0 2px 0;
+  display: inline-block;
+  border: none;
+  background: #f1f1f1;
+}
+.inputrelo:focus {
+  background-color: #ddd;
+  outline: none;
 }
 </style>
