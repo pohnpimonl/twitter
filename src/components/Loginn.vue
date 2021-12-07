@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div class="relobuttondiv">
-      <button class="relobutton" @click="openForm()">เข้าสู่ระบบ</button>
+    <div>
+      <button class="relobuttonmain" @click="openForm()">เข้าสู่ระบบ</button>
     </div>
     <div class="modal" :style="{ display: $root.state.isloopenForm ? 'block' : 'none' }">
       <div class="modal-content">
@@ -31,7 +31,7 @@ const host = "https://camt-twitterapi.pair-co.com"
 export default {
   data() {
     return {
-      username: "aweqaweq",
+      username: "joyuser01",
       password: "123456",
     };
   },

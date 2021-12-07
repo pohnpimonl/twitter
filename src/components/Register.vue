@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div class="relobuttondiv">
-      <button class="relobutton" @click="openForm()"><span>ลงทะเบียน</span></button>
+    <div>
+      <button class="relobuttonmain" @click="openForm()"><span>สมัครสมาชิก</span></button>
     </div>
     <div class="modal" :style="{ display: $root.state.isreopenForm ? 'block' : 'none' }" >
       <div class="modal-content">
@@ -34,7 +34,7 @@
             <input type="password" placeholder="Enter Re-Password" class="inputrelo" v-model="form.password_" required />
             </div>
             <div class="relobuttondiv">
-              <button class="relobutton" type="submit">ลงทะเบียน</button>
+              <button class="relobutton" type="submit">สมัครสมาชิก</button>
               <button class="relobutton" type="button" @click="closeForm()">ยกเลิก</button>
             </div>
         </form>
@@ -113,6 +113,7 @@ export default {
   overflow: auto;
   background-color: rgb(0,0,0);
   background-color: rgba(255, 255, 255, 0.001);
+  margin-top: 10px;
 }
 .modal-content {
   background-color: #fefefe;
@@ -137,6 +138,20 @@ export default {
   text-decoration: none;
   cursor: pointer;
 }
+.relobuttonmain{
+  border: 1px solid #d0d0d4;
+  background-color: #ffffff;
+  padding: 10px 100px;
+  border-radius: 24px;
+  color: #1d9bf0;
+  font-weight: bold;
+  cursor: pointer;
+  margin: 10px 180px;
+  font-size: 16px;
+}
+.relobuttonmain:hover{
+  border: 1px solid #1d9bf0
+}
 .formrelo{
   display: grid;
   grid-template-columns: 30% 70%;
@@ -148,20 +163,19 @@ export default {
   display: grid;
   grid-template-columns: 49% 49%;
   grid-gap: 2%;
+  margin-top: 10px;
 }
 .relobutton {
-  background-color: #2196F3;
-    border: none;
-    border-radius: 16px;
-  color: white;
-  padding: 14px 28px;
-  font-size: 24px;
-  font-weight: bolder;
-  opacity: 0.9;
+  border: 1px solid #d0d0d4;
+  background-color: #ffffff;
+  padding: 10px;
+  border-radius: 24px;
+  color: #1d9bf0;
+  font-weight: bold;
   cursor: pointer;
 }
 .relobutton:hover {
-  background: #0b7dda;
+  border: 1px solid #1d9bf0
 }
 .relop{
     font-size: 24px;

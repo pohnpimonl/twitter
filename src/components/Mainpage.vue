@@ -11,7 +11,7 @@
         <router-link to="/profile"><button>Profile</button></router-link>
       </div>
       <div class="morebutton">
-        <button>More</button>
+          <button>More</button>
       </div>
       <div class="logoutbutton">
         <button>Logout</button>
@@ -27,7 +27,7 @@
             <div class="witem3">@{{listUser[0].username}}</div>
             <div class="witem4"><p>Followings</p>{{listUser[0].followings.length}}</div>
             <div class="witem5"><p>Followers</p>{{listUser[0].followers.length}}</div>
-            <div class="witem6"><button>Follow</button></div>
+            <div class="witem6"><button v-if="Followshowb" @click="Followshow()">Follow</button><button v-if="!Followshowb"  @click="Followshow()">Unfollow</button></div>
           </div>
           <div class="whotofollow2">
             <div class="witem1"><img :src="$root.state.url+listUser[1].avatar"></div>
@@ -114,7 +114,8 @@ export default {
       limit:5,
       total:0,
       pageNumber:1,
-      ceilt:0
+      ceilt:0,
+      Followshowb:true
     }
   },
   mounted(){
@@ -183,7 +184,14 @@ export default {
     },
         twcloseForm(){
       store.twcloseForm()
-    }
+    },
+    Followshow(){
+      if(this.myId===this.listUser[0].followings[0]){
+        this.Followshowb=true
+      }else{
+        this.Followshowb=false
+      }
+    },
   }
 }
 </script>
@@ -249,7 +257,7 @@ export default {
 .whotofollow2{
   height: 72px;
   display: grid;
-  grid-template-columns: 23% 27% 25% 25%;
+  grid-template-columns: 23% 27% 24% 26%;
   border: 1px solid #e7e7e9;
 }
 .whotofollow2:hover{

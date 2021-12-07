@@ -7,13 +7,11 @@
                 <div class="h2item2"><input type="text" placeholder="What's happening?" v-model="texttwit"></div>
                 <div class="h2item3"><button @click="twit()">Tweet</button></div>
             </div>
-            <div v-for="twit in twitters" :key="twit.id" class="home3">
-                <p>{{twit.text}}</p>
-                <p>{{twit.author.username}}</p>
-                <img :src="$root.state.url+twit.author.avatar" class="pictwit">
-                <p>{{twit.createdAt}}</p>
-                <p>{{twit.likes.length}}</p>
-                <p>_______________________</p>
+            <div v-for="twit in twitters" :key="twit._id" class="home3">
+                <div class="titem1"><img :src="$root.state.url+twit.author.avatar" class="pictwit"></div>
+                <div class="titem2"><p>Post by :@{{twit.author.username}} Date :{{twit.createdAt}}</p></div>
+                <div class="titem2"><p>{{twit.text}}{{twit._id}}</p></div>
+                <div class="titem2"><p>จำนวน Like :{{twit.likes.length}} <button @click="like(twit._id)">Like</button></p></div>
             </div>            
         </div>
     </div>
@@ -27,11 +25,12 @@ export default {
             texttwit:'',
             twitters:[],
             me:[],
+            mylikeid:'',
         }
     },
     mounted(){
-        this.gettwit(),
-        this.getme()
+        this.getme(),
+        this.gettwit()
     },
     methods:{
         twit(){
@@ -52,6 +51,13 @@ export default {
             .then(response=>response.json())
             .then(data=>{this.me=data})
         },
+        like(likeid){
+            this.mylikeid=likeid
+            const likeURL = `${host}/tweets/${this.mylikeid}/likes`
+            fetch(likeURL,{method:'POST',headers:{Authorization:`Bearer ${this.$root.state.loginToken}`},})
+            // .then(response=>{if(response.status>=200 && response.status<300){alert('Like เรียบร้อย'),this.gettwit()}})
+            // .then(response=>response.json())
+        },
         test(){
             alert(Math.ceil(10/3))
         }
@@ -68,6 +74,7 @@ export default {
 .home1{
     height: 54px;
     border-bottom: 1px solid #e7e7e9;
+    padding: 15px 0 0 10px;
 }
 .home2{
     height: 140px;
@@ -111,6 +118,22 @@ export default {
     cursor: pointer;
 }
 .home3{
-    height: 200px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 30% 70%;
+    border-bottom: 1px solid #e7e7e9;
+}
+.titem1{
+    grid-row: 1 / span 3;
+    padding: 10px 0 0 20px;
+}
+.pictwit{
+  height: 49px;
+  width: 49px;
+  border-radius: 50%;
+  background-color: black;
+}
+.titem2{
+    padding: 10px 0;
 }
 </style>
